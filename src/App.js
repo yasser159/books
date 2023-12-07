@@ -1,18 +1,27 @@
 import { useState } from "react";
 import BookCreate from "./components/BookCreate";
+import BookList from "./components/BookList";
+
 function App() {
   const [books, setBooks] = useState([]);
 
+  const deleteBookById = (id) => {
+    const updatedBooks = books.filter((book) => {
+      return book.id !== id;
+    });
+  };
+
   const createBook = (title) => {
-    // BAD CODE!
-    books.push({ id: 123, title: title });
-    console.log(books);
-    setBooks(books);
+    const updatedBooks = [
+      ...books,
+      { id: Math.round(Math.random() * 9999), title: title },
+    ];
+    setBooks(updatedBooks);
   };
 
   return (
-    <div>
-      {books.length}
+    <div className="app">
+      <BookList books={books} onDelete={deleteBookById} />
       <BookCreate onCreate={createBook} />
     </div>
   );
